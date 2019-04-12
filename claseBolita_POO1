@@ -1,0 +1,73 @@
+/* 
+-------Labpratorio de Tecnologias Libres----------
+-----------Centro de Cultura Digital--------------
+Este código busca introducir el concepto de 
+Programación Orientada a Objetos
+Al dar click con el mouse se dibuja 
+un nuevo objeto del tipo 'Bolita'
+*/
+
+//Declaracion del objeto 'Bolita' al que se le asigna
+//el nombre de 'miBolita'
+Bolita miBolita;
+
+void setup() {
+  size(500,500);
+   background(0);
+}
+
+
+void draw() {
+  //Función draw se queda vacía
+  //Es necesario declararla para que se activen
+  //las funciones del mouse
+  }
+
+/*
+Funcion que se activa cuando el mouse es presionado.
+Al presionar el mouse se genera un color 'c' y se
+dibuja un objeto 'Bolita' en la posición del mouse
+*/
+void mousePressed() {
+ color c = color(random(255),random(255),random(255),100);
+ //Creación de un objeto nuevo(new) del tipo 'Bolita'
+ //El nuevo objeto se guarda en 'miBolita'
+ miBolita = new Bolita(mouseX,mouseY,50,c);
+ //invoca al metodo dibujarBolita del objeto 'miBolita'
+ miBolita.dibujarBolita();
+}
+
+//Declaración de la clase(objeto) 'Bolita'
+class Bolita {
+  
+  //Propiedades
+  int x;
+  int y;
+  int rad;
+  color col;
+  
+  //Constructor
+  //Inicializa el objto 'Bolita'
+  //Requiere 4 parámetros:
+  //Posicion en X, posición en Y,
+  //el radio de la bolita y el color
+  Bolita(int posX,int posY, int radio, color tono) {    
+    x = posX;
+    y = posY;
+    rad = radio;
+    col = tono;
+  }
+  
+  //Método del objeto 'Bolita
+  //Cada vez que se invoca este método
+  //se dibuja un circulo de color y 
+  //un cuadrado negro en el canvas
+  void dibujarBolita() {
+   noStroke();
+   fill(col); 
+   rectMode(CENTER);
+   ellipse(x,y,rad,rad);
+   fill(0);
+   rect (x,y,rad-20,rad-20);
+ }
+}
