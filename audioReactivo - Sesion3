@@ -1,0 +1,63 @@
+//Código modificado para ser audioreactivo
+//El código original fue extraido de:
+//https://www.openprocessing.org/sketch/610557
+
+//Importar Librería
+   import ddf.minim.*;
+   //Creación de variable de tipo Minim
+  Minim minim;
+  //Creación de variable de tipo AUudioInput
+  AudioInput in;   
+  
+  //Creación de variables globales
+        float x, y;
+        float nVal;
+        float rad = 800; 
+        float limit;
+        float zLength = 1200;
+        float spacing = 3;
+        float time;
+
+        void setup() {
+          //El previw en full y el render 3D
+          fullScreen(P3D);
+          //Creación de instancia de la clase Minim
+          minim = new Minim(this);
+          //Llamamos el método getLiveIn y se asigna a la variable in
+          in = minim.getLineIn();
+        }
+
+        void draw() {
+          noCursor();
+          background(0);
+          strokeWeight(random(0.5,1));
+          noFill();
+           stroke(random(255), 10, random(40,in.bufferSize()*20), 80);
+          //Translada el punto central en el canvas
+          translate(mouseX, mouseY, 0);
+          
+          // Rangos de amplitud que se almacenan en el buffer y se iteran
+          //Por medio de un ciclo recorro el buffer de entrada de audio
+           for(int i = 0; i < in.bufferSize(); i++){
+            rotateY(radians(in.left.get(i)*10));
+            rotateX(radians(in.left.get(i)*10));
+          }
+          // la altura de la forma 
+            for (float z = 0; z < in.bufferSize()*0.5; z += spacing) {
+              
+              //Creación de forma 
+              beginShape();
+              for (float a = 0; a <= TWO_PI; a += TWO_PI/in.bufferSize()*10) {
+                //Trazo del contorno del círculo
+                nVal = map(noise(x/600, sin(y/300), (cos(a) * time)), 0, 1, 0.1, 1) * map(sin(z/500 * time), 0, 500, 0.1, 100);
+                //nVal = map(noise(z/150, sin(z/100), (cos(a) + time)), 0, 1, 0.1, 1.2) * map(sin(noise(z/950, time/2, sin(z/100))), -1, 1, 0.1, 1) * sin(time);
+                x = sin(a) * rad * nVal;
+                y = cos(a) * rad * nVal;
+                vertex(x, y, z); 
+              }
+              endShape(CLOSE);                                 
+            }
+            for(int i = 0; i < in.bufferSize(); i++){
+              time += 0.009*in.left.get(i)*5; 
+            }
+     }
