@@ -1,0 +1,62 @@
+//Variables globales
+//Posición actual del circulo
+float posX, posY; 
+//Radio del circulo
+int rad = 10;
+
+//Función de inicio, se ejecuta una sola vez
+void setup() {
+  //Canvas de 500*500 pixeles
+  size(500,500);
+  background(0);
+  //Inicializa las posiciones del circulo en la esquina superior izquierda
+  posX = 0 + rad;
+  posY = 0 + rad;
+  //Dibuja un cuadrado en el medio del canvas
+  noStroke();
+  fill(200,200,50);
+  rectMode(CENTER);
+  square(width/2, height/2, rad+100);
+}
+
+//Función que se repite constantemente
+void draw() {
+  
+  //Dibuja continuamente un fondo negro
+  //Descomentar la línea siguiente y mirar que sucede
+  //background(0);
+  
+  //Pinta la siguiente figura de color random y opacidad 100
+  fill(random(120,255),random(120,255),random(120,255), 200);
+  ellipse(posX, posY, rad * 2, rad *2);
+  
+  //Llamada a la función mover, si se descomenta alguna otra 
+  //funcion de mover se debe comentar esta linea
+  mover();
+  
+  //Descomentar para observar otro tipo de trayectoria
+  //mover2();
+  
+  //Descomentar para observar otra trayectoria
+  //mover3();
+}
+
+//Funciones usadas para mover el circulo
+//Al ser del tipo 'void' no esperamos que retornen ningun valor
+void mover() {
+  //Movimiento lineal
+  posX = posX + 1;
+  posY = posY + 1;
+} 
+
+void mover2() {
+  //Movimiento senoidal
+  posX = posX + 2;
+  posY = (height/2) - (100 * sin(radians(posX)));  
+}
+
+void mover3() {
+  //Movimiento secante
+  posX = posX + 1;
+  posY = height/2 + 50/cos(radians(posX));
+}
