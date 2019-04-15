@@ -1,0 +1,52 @@
+//Declara el tamaño en pixeles de la ventana: (ancho,alto)
+size(500,500);
+
+//Declara el color de fondo en color blanco
+background(255);
+
+//Configura la referencia de los rectangulos al centro
+//por default se encuentra en rectMode(CORNER);
+rectMode(CENTER);
+
+//Declara que la siguiente figura a dibujar será de un tono gris
+//Se puede elegir los valores entre 0 y 255
+// 0 - Completamente negro
+//255 - Completamente blanco
+fill(200);
+
+//Dibuja un rectangulo de acuerdo a los parámetros:
+//(posición en X, posición en Y, ancho, alto);
+rect(100, 100, 100, 40);
+
+//Declara que la siguiente figura a dibujar no va a tener contorno
+noStroke();
+
+//El relleno de la siguiente figura será de color (r,g, b)
+//Los valores pueden ser entre 0 y 255
+//random genera un número aleatorio entre 0 y el número del argumento
+fill(127,245,random(255));
+
+//Dibuja un elipse de acuerdo a los parámetros
+//(posición en X, posición en Y, ancho, alto)
+ellipse(200, 200, 100, 75);
+
+//Restablece el contorno de la figura
+stroke(1);
+
+//Cambia el grosor del contorno
+strokeWeight(5);
+
+//Configura la siguiente figura a dibujar para no tener relleno
+noFill();
+
+//Dibuja un circulo de acuerdo a los siguientes parametros:
+//(posición en X, posicion en Y, diametro)
+circle(300, 300, 100);
+
+//rellena la siguiente figura en un color random y opacidad 150
+//(r,g,b,o)
+fill(random(255), random(255), random(255), 150);
+
+//Dibuja un triangulo de acuerdo a sus vertices
+//(x1,y1,x2,y2,x3,y3)
+triangle((width-width/5),height, width, height, (width-width/5), (height-height/5));
