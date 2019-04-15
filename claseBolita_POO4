@@ -1,0 +1,202 @@
+/* 
+**************** Laboratorio de Tecnologias Libres ******************
+******************** Centro de Cultura Digital **********************
+
+++++++++++++++++++++++++INSTRUCCIONES++++++++++++++++++++++++++++++++
+*Presionar con el mouse para generar una nueva bolita que rebota y 
+ aumentar el tamaño de la espiral
+*Presionar la tecla 'borrar' para eliminar 'Bolitas' del espiral
+*Presionar la 'barra espaciadora' para eliminar las 'Bolitas' rebotando
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Ultimo código de programación orientada a objetos.
+En esté código se implementan dos arreglos diferentes 
+que dibujan dos animaciones a la vez, esta es una sucesión 
+del código en 'claseBolita_POO3'
+*/
+ 
+//Se declaran dos arreglos que contienen objetos del tipo 'Bolita'
+//El primer arreglo se llama 'bolitas' 
+ArrayList<Bolita> bolitas2 = new ArrayList<Bolita>();
+//El segundo arreglo se llama 'bolitas2' 
+ArrayList<Bolita> bolitas = new ArrayList<Bolita>();
+
+//Variables globales para la espiral
+float theta = 0;
+float thetaVel;
+
+void setup(){
+  size(500,500);  
+}
+
+void draw() {
+  background(0); 
+  pintar(); 
+  espiral();
+} 
+
+//Funciones del sketch
+
+/* Cada que se invoca esta función se dibuja un objeto 'Bolita' 
+al que se le asigna el nombre 'bola2', despues cada bol es guardado
+en la posicion 'i' del arreglo 'bolitas2', posteriormente se dibuja 
+la bolita sobre un patrón de espiral  */
+void espiral() {
+  int radEsp = 20;
+  for(int i = 0; i < bolitas2.size(); i++) {
+    Bolita bola2 = bolitas2.get(i);
+    bola2.dibujarBolita();
+    
+    //Descomentar estas lineas para cambiar la separacion entre bolitas
+    //bola2.x = (radEsp * cos(theta)) + width/2;
+    //bola2.y = (radEsp * sin(theta)) + height/2;
+    
+    //Comentar estas lineas en caso de descomentar las lineas superiores
+    bola2.x = (radEsp * cos(theta)) + width/2 + (radEsp * cos(theta))*0.1*i;
+    bola2.y = (radEsp * sin(theta)) + height/2 + (radEsp * sin(theta))*0.1*i;
+    
+    thetaVel = PI/bolitas2.size() + 0.5;
+    theta += thetaVel ;
+    radEsp += 1.25;
+  }
+}
+
+/* Cada que se invoca esta función se dibuja un objeto 'Bolita' 
+al que se le asigna el nombre 'bol', despues cada bol es guardado
+en la posicion 'i' del arreglo 'bolitas', posteriormente actualiza la 
+posicón de cada 'bol' y detecta si 'bol' ha tocado el borde del canvas */
+void pintar() {
+  for(int i= 0; i<bolitas.size(); i++) {
+      Bolita bol = bolitas.get(i);
+      bol.dibujarBolita();
+      bol.moverBolita();
+      
+      /* Condicionales
+     Detectan el impacto con los bordes del canvas */
+     if((bol.x - (bol.rad/2)) <=0 || (bol.x +(bol.rad/2)) >= width) {     
+       bol.choqueBolita();    
+     }
+     if((bol.y - (bol.rad/2)) <=0 || (bol.y +(bol.rad/2)) >= height){ 
+       bol.choqueBolita();
+     } 
+   } 
+}
+
+/* Función que se invoca cuando el mouse es presionado
+Al presionar el mouse pasan dos cosas:
+1.- Para el arreglo 'bolitas' se genera un color aleatorio 'c' y se 
+    crea un objeto 'Bolita' en la posición del mouse y con radio 50
+2.- Para el arreglo 'bolitas2' tambien se genera un color aleatorio
+    'c2' y se crea un objeto 'Bolita' que será dibujado sobre una 
+    espiral predefinida en la función 'espiral'
+*/
+void mousePressed() {
+ colorMode(HSB);
+ color c = color(random(0,150),180,200,200);
+ /* Al crear este objeto 'Bolita' se manda a llamar
+ al Constructor 2, ya que se proporcionan 4 parámetros,
+ además este nuevo objeto se guarda en el arreglo
+ 'bolitas'  */
+ bolitas.add(new Bolita(mouseX,mouseY,50,c)); 
+ 
+ colorMode(HSB);
+ color c2 = color(random(0,150),180,220);
+ /* Al crear este objeto 'Bolita' se manda a llamar
+ al Constructor 1, ya que se proporcionan 2 parámetros,
+ además este nuevo objeto se guarda en el arreglo
+ 'bolitas2'  */
+ bolitas2.add(new Bolita(5,c2));   
+}
+
+/* Esta función detecta cuando se presiona alguna 
+tecla del teclado alfanumerico */
+void keyPressed() {
+  //Si detecta la tecla 'borrar' el último objeto del 
+  //arreglo 'bolitas' es eliminado
+  if(keyCode == 32) {      
+    if(bolitas.size() > 0) {
+       bolitas.remove(bolitas.size()-1);    
+       }   
+  }
+  //Si detecta la tecla 'barraEspaciadora' el último objeto del 
+  //arreglo 'bolitas2' es eliminado
+  if(keyCode == 8) {
+    if(bolitas2.size() > 0) {
+      bolitas2.remove(bolitas2.size()-1);    
+    }
+  }
+  //Descomentar para imprimir el código de la tecla presionada
+  //println(keyCode);
+}
+
+//Declaración de la clase(objeto) 'Bolita'
+class Bolita {
+  
+  //Propiedades
+  float x;
+  float y;
+  float dirX;
+  float dirY;
+  float vel;
+  int rad;
+  color col;
+  
+  //Constructores
+  /* Si se requiere iniciar un objeto de diferente manera
+  se puede añadir un constructor diferente, el código
+  detecta automaticamente que constructor se manda a 
+  llamar dependiendo del numero de parámetros que 
+  inicialicen el objeto */
+  
+  //Constructor 1 
+  //Requiere solo dos parámetros: radio y color
+  Bolita(int radio, color tono) {   
+    rad = radio;
+    col = tono;
+    x = width / 2;
+    y = height / 2;
+  }
+  
+  //Constructor 2 
+  //Requiere cuatro parámetros: 
+  //radio, color, posición en X y posición en Y
+  Bolita(float posX,float posY, int radio, color tono) {   
+    x = posX;
+    y = posY;
+    rad = radio;
+    col = tono;
+    dirX = random(-1,1);
+    dirY = random(-1,1);
+    vel = random(6);
+  }
+  
+  //Métodos del objeto 'Bolita'
+  
+  /* Cada vez que se invoca este método
+  se dibuja un circulo de color y 
+  un cuadrado negro en el canvas */
+  void dibujarBolita() {
+   noStroke();
+   fill(col); 
+   ellipse(x,y,rad,rad);
+   rectMode(CENTER);
+   fill(0);
+   rect (x,y,rad-rad/1.5,rad-rad/1.5);
+  }
+
+  /* Este método actualiza la posición
+  del objeto 'Bolita' */  
+  void moverBolita() {
+    x = (x+(vel*dirX)) ;
+    y = (y+(vel*dirY)) ;     
+  }
+  
+  /* Al chocar con los bordes del canvas este método
+  es llamado para cambiar la dirección y el color
+  de las bolitas */  
+  void choqueBolita() {   
+    dirX = -dirX;
+    dirY = -dirY;
+    col = color(random(255),random(255),random(255),100);    
+  }
+}
