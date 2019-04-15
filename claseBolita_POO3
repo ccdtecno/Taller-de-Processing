@@ -1,0 +1,114 @@
+/* 
+******** Laboratorio de Tecnologias Libres **********
+************* Centro de Cultura Digital *************
+Este código agrega la función de detección de choque a 
+las bolitas dibujadas, esta una sucesión del código en
+'claseBolita_POO2'
+
+Arreglo
+Es una estructura que permite almacenar varios objetos a la vez.
+Se declara un arreglo que contiene objetos del tipo 'Bolita'
+El arreglo se llama 'bolitas' */
+ArrayList<Bolita> bolitas = new ArrayList<Bolita>();
+
+void setup(){
+  size(500,500);  
+}
+
+
+void draw(){
+  //Dibuja el fondo de negro
+  background(0);
+  /* Itera desde 0 hasta el tamaño total
+  del arreglo 'bolitas'.
+  Inicialmente el arreglo bolitas tiene 0 elementos.
+  En cuanto se presione el mouse se crea un objeto 
+  llamado 'bol' que será del tipo 'Bolita'
+  */
+  for(int i= 0;i<bolitas.size();i++){
+   /* Se guarda 'bol' en la posición 'i' del 
+   arreglo 'bolitas' */
+   Bolita bol = bolitas.get(i);
+   bol.dibujarBolita();
+   bol.moverBolita();
+   
+   /* Condicionales
+   Detectan el impacto con los bordes del canvas */
+   if((bol.x - (bol.rad/2)) <=0 || (bol.x +(bol.rad/2)) >= width) {     
+     bol.choqueBolita();    
+   }
+   if((bol.y - (bol.rad/2)) <=0 || (bol.y +(bol.rad/2)) >= height){ 
+     bol.choqueBolita();
+   } 
+ } 
+}
+
+/*
+Funcion que se activa cuando el mouse es presionado.
+Al presionar el mouse se genera un color aleatorio 'c' 
+y se dibuja un objeto 'Bolita' en la posición del mouse
+*/
+void mousePressed(){
+ colorMode(HSB);
+ color c = color(random(255),180,200,100);
+ bolitas.add( new Bolita(mouseX,mouseY,50,c));
+}
+
+//Declaración de la clase(objeto) 'Bolita'
+class Bolita{
+  
+  //Propiedades del objeto 'Bolita'
+  float x;
+  float y;
+  float dirX;
+  float dirY;
+  float vel;
+  int rad;
+  color col;
+  
+  //Constructor
+  /* Inicializa el objto 'Bolita'
+  Requiere 4 parámetros:
+  Posicion en X, posición en Y,
+  el radio de la bolita y color */
+  Bolita(float posX,float posY, int radio, color tono){
+    x = posX;
+    y = posY;
+    rad = radio;
+    col = tono;
+    dirX = random(-1,1);
+    dirY = random(-1,1);
+    vel = random(6);   
+  }
+  
+  // Métodos del objeto 'Bolita'
+  
+  /* Cada vez que se invoca este método
+  se dibuja un circulo de color y 
+  un cuadrado negro en el canvas */
+  void dibujarBolita(){
+   noStroke();
+   fill(col); 
+   ellipse(x,y,rad,rad);
+   rectMode(CENTER);
+   fill(0);
+   rect (x,y,rad-20,rad-20);
+  }
+  
+  /* Este método actualiza la posición
+  del objeto 'Bolita' */
+  void moverBolita(){
+    x = (x+(vel*dirX)) ;
+    y = (y+(vel*dirY)) ;
+  }
+  
+  /* Al chocar con los bordes del canvas este método
+  es llamado para cambiar la dirección y el color
+  de las bolitas */
+  void choqueBolita(){
+    dirX = -dirX;
+    dirY = -dirY;
+    colorMode(HSB);
+    col= color(random(255),200,200,100);  
+  }
+}
