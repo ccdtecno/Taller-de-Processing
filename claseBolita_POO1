@@ -71,3 +71,4 @@ class Bolita {
    rect (x,y,rad-20,rad-20);
  }
 }
+
