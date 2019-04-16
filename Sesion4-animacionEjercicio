@@ -1,0 +1,38 @@
+//declaracion de variables globales
+float diametro = 50;
+float radio = diametro/2;
+float velocidad = 5;
+float contador;
+
+//configuracion del canvas
+void setup() {
+  size(500,500);
+  background(0);
+}
+
+//funcion principal en loop
+void draw() {
+  //dibuja el fondo negro
+  background(0);
+  //primer 'for' se encarga de dibujar las filas
+  for(int y = 25; y <= height-25; y += 50) {
+      //segundo 'for' se encarga de dibujar las columnas
+      for(int x = 25; x <= (width-25); x += 50){
+        noFill();
+        //dibuja un circulo color rojo de 50px de diametro
+        stroke(255,0,0);
+        ellipse(x, y, diametro, diametro);
+        //dibuja un cuadrado color verde de 50 px de lado
+        rectMode(CENTER);
+        stroke(0,255,0);
+        rect(x, y, diametro, diametro);
+        //dibuja un circulo azul de 25px de diametro
+        stroke(0,0,255);
+        ellipse(x+radio, y+radio, diametro/2, diametro/2);
+      }
+  }
+  //Aumenta el diametro y el lado de las figuras
+  diametro = (map(sin(radians(contador)), -1,1,50,250));
+  //Contador para la funcion seno
+  contador += 1;
+}
