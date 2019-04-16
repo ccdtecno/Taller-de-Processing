@@ -9,7 +9,7 @@
 *Presionar la 'barra espaciadora' para eliminar las 'Bolitas' rebotando
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-Ultimo código de programación orientada a objetos.
+Último código de programación orientada a objetos.
 En esté código se implementan dos arreglos diferentes 
 que dibujan dos animaciones a la vez, esta es una sucesión 
 del código en 'claseBolita_POO3'
@@ -17,9 +17,9 @@ del código en 'claseBolita_POO3'
  
 //Se declaran dos arreglos que contienen objetos del tipo 'Bolita'
 //El primer arreglo se llama 'bolitas' 
-ArrayList<Bolita> bolitas2 = new ArrayList<Bolita>();
-//El segundo arreglo se llama 'bolitas2' 
 ArrayList<Bolita> bolitas = new ArrayList<Bolita>();
+//El segundo arreglo se llama 'bolitas2' 
+ArrayList<Bolita> bolitas2 = new ArrayList<Bolita>();
 
 //Variables globales para la espiral
 float theta = 0;
