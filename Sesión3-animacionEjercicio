@@ -1,6 +1,7 @@
 //declaracion de variables globales
 float diametro = 50;
-float radio = diametro/2;
+float diametroRef = diametro;
+float radio = diametroRef/2;
 float velocidad = 5;
 float contador;
 
@@ -15,9 +16,9 @@ void draw() {
   //dibuja el fondo negro
   background(0);
   //primer 'for' se encarga de dibujar las filas
-  for(int y = 25; y <= height-25; y += 50) {
+  for(float y = radio; y <= height-radio; y += diametroRef) {
       //segundo 'for' se encarga de dibujar las columnas
-      for(int x = 25; x <= (width-25); x += 50){
+      for(float x = radio; x <= (width-radio); x += diametroRef){
         noFill();
         //dibuja un circulo color rojo de 50px de diametro
         stroke(255,0,0);
@@ -32,7 +33,7 @@ void draw() {
       }
   }
   //Aumenta el diametro y el lado de las figuras
-  diametro = (map(sin(radians(contador)), -1,1,50,250));
+  diametro = (map((diametroRef + sin(radians(contador))), diametroRef-1, diametroRef+1, diametroRef, diametroRef*4));
   //Contador para la funcion seno
   contador += 1;
 }
